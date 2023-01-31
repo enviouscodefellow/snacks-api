@@ -1,6 +1,8 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse_lazy
+from django.contrib.auth.models import User
+from rest_framework import routers, serializers, viewsets, permissions
 from django.views.generic import (
     TemplateView,
     DetailView,
@@ -10,6 +12,8 @@ from django.views.generic import (
     DeleteView
 )
 from .models import Snack, MyForm
+from rest_framework import generics
+from .serializers import SnackSerializer
 
 
 class HomePageView(TemplateView):
@@ -60,3 +64,18 @@ def my_view(request):
     else:
         form = MyForm()
     return render(request, 'pages/create.html', {'form': form})
+
+
+# class SnackAPIListView(generics.ListAPIView):
+#     queryset = Snack.objects.all()
+#     serializer_class = SnackSerializer
+#
+#
+# class SnackAPIDetailView(generics.RetrieveAPIView):
+#     queryset = Snack.objects.all()
+#     serializer_class = SnackSerializer
+
+class SnackViewSet(viewsets.ModelViewSet):
+    queryset = Snack.objects.all()
+    serializer_class = SnackSerializer
+    # permission_classes = [permissions.IsAuthenticated]

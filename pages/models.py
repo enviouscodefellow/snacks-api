@@ -1,10 +1,8 @@
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from django.contrib.auth import get_user_model
-from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django import forms
-from django.shortcuts import render
 
 
 # Create your models here.
@@ -16,6 +14,8 @@ class Snack(models.Model):
     rating = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(5)], default=3)
     image_url = models.URLField(default="https://www.hitpromo.net/imageManager/show/ZBOX-MINCEREAL_blank2.jpg",
                                 blank=True)
+    created_at = models.DateTimeField(auto_now_add=True) #on creation
+    updated_at = models.DateTimeField(auto_now=True) #on save
 
     def __str__(self):
         return self.name
