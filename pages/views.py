@@ -12,8 +12,9 @@ from django.views.generic import (
     DeleteView
 )
 from .models import Snack, MyForm
-from rest_framework import generics
+# from rest_framework import generics
 from .serializers import SnackSerializer
+from .permissions import IsOwnerOrReadOnly
 
 
 class HomePageView(TemplateView):
@@ -78,4 +79,5 @@ def my_view(request):
 class SnackViewSet(viewsets.ModelViewSet):
     queryset = Snack.objects.all()
     serializer_class = SnackSerializer
-    # permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = (IsOwnerOrReadOnly,)
